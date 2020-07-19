@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `<app-map-page></app-map-page>`
 })
 export class AppComponent {
-  title = 'multiselect-map-armenia';
+  title = 'Armenian Regions Map';
 }

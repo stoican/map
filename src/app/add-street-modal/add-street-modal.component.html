@@ -1,0 +1,25 @@
+<h1 mat-dialog-title style="font-size: 20px;">Ավելացնել նոր փողոց</h1>
+<div mat-dialog-content class="text-center">
+  <mat-form-field>
+    <mat-label>Փողոցի անվանում</mat-label>
+    <input matInput [(ngModel)]="data.name" placeholder="Փողոց" required multiple>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Ընտրել համայնքը</mat-label>
+    <mat-select [(ngModel)]="data.districtId">
+      <mat-option *ngFor="let district of districts" [value]="district.id">
+        {{district.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" [(ngModel)]="data.coordinates.lat" placeholder="Latitude" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" [(ngModel)]="data.coordinates.lng" placeholder="Longitude" required>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Փակել</button>
+  <button mat-button color="primary" [mat-dialog-close]="data" cdkFocusInitial>Ավելացնել</button>
+</div>

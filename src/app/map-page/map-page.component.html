@@ -1,0 +1,106 @@
+<!-- ========== Spinner ========== -->
+<div class="overlay" *ngIf="spinner">
+  <div class="spinner-wrapper">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>
+<!-- ========== Main Container ========== -->
+<div class="container">
+  <div class="row">
+      <div class="col">
+      <mat-card style="margin: 10px" [class.blurred]="spinner">
+        <!-- ========= Regions, Cities, Villages =============== -->
+        <div class="row">
+            <mat-form-field class="col-12 col-md-4 col-lg-4">
+              <mat-label>Մարզեր</mat-label>
+              <mat-select title="Մարզեր" [(ngModel)]="regionId" (ngModelChange)="onRegionChange()" multiple>
+                <mat-option *ngFor="let region of regions" [value]="region.id">
+                  {{region.province}}
+                </mat-option>
+              </mat-select>
+              <!-- ======= Reset Selected Options =========== -->
+              <button mat-button *ngIf="regionId.length" matSuffix mat-icon-button aria-label="Clear"
+                      (click)="regionId = []; onRegionChange(); filteredCities = cities; $event.stopPropagation();">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+            <mat-form-field class="col-12 col-md-3 col-lg-4">
+              <mat-label>Քաղաքներ</mat-label>
+              <mat-select title="Քաղաքներ" [(ngModel)]="cityId" (ngModelChange)="onCityChange()" multiple>
+                <mat-option *ngFor="let city of filteredCities" [value]="city.id">
+                  {{city.name}}
+                </mat-option>
+              </mat-select>
+              <button mat-button *ngIf="cityId.length" matSuffix mat-icon-button aria-label="Clear"
+                      (click)="cityId = []; onCityChange(); onRegionChange(); $event.stopPropagation()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+            <mat-form-field class="col-9 col-md-3 col-lg-3">
+              <mat-label>Գյուղեր</mat-label>
+              <mat-select title="Գյուղեր" [(ngModel)]="villageId" (ngModelChange)="onVillageChange()" multiple>
+                <mat-option *ngFor="let village of filteredVillages" [value]="village.id">
+                  {{village.name}}
+                </mat-option>
+              </mat-select>
+              <button mat-button *ngIf="villageId.length" matSuffix mat-icon-button aria-label="Clear"
+                      (click)="villageId = []; onVillageChange(); onRegionChange(); $event.stopPropagation()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          <!-- ======== Add new Village ==========  -->
+          <div class="col-3 col-md-2 col-lg-1 text-center">
+            <button mat-icon-button color="primary" title="Add New Village"
+                    (click)="addVillage()">
+              <mat-icon>library_add</mat-icon>
+            </button>
+          </div>
+        </div>
+        <!-- =========== Districts and Streets =========== -->
+        <div class="row">
+          <mat-form-field class="col-12 col-md-5 col-lg-6">
+            <mat-label>Համայնքներ</mat-label>
+            <mat-select [(ngModel)]="districtId" (ngModelChange)="onDistrictChange()"  multiple>
+              <mat-option *ngFor="let district of districts" [value]="district.id">
+                {{district.name}}
+              </mat-option>
+            </mat-select>
+            <button mat-button *ngIf="districtId.length" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="districtId = []; onDistrictChange(); onRegionChange(); $event.stopPropagation()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field class="col-9 col-md-5 col-lg-5">
+            <mat-label>Փողոցներ</mat-label>
+            <mat-select [(ngModel)]="streetId" (ngModelChange)="onStreetChange()" multiple>
+              <mat-option *ngFor="let street of filteredStreets" [value]="street.id">
+                {{street.name}}
+              </mat-option>
+            </mat-select>
+            <button mat-button *ngIf="streetId.length" matSuffix mat-icon-button aria-label="Clear"
+                    (click)="streetId = []; onStreetChange(); onDistrictChange(); $event.stopPropagation()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <!-- ======== Add new Street ==========  -->
+          <div class="col-3 col-md-2 col-lg-1 text-center">
+            <button mat-icon-button color="primary" title="Add New Street" (click)="addStreet()">
+              <mat-icon>library_add</mat-icon>
+            </button>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <!-- =========== Google Map =========== -->
+        <div class="row" style="margin-top: 15px;">
+          <google-map [center]="defaultView" width="100%" [zoom]="zoom" class="col-12">
+            <map-marker *ngFor="let marker of markers" [position]="marker">
+            </map-marker>
+          </google-map>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<div class="text-center"><a mat-button href="https://github.com/stoican/map" target="_blank">
+   <i class="fa fa-github" style="font-size: 18px;" aria-hidden="true"></i>View on Github</a>
+</div>
